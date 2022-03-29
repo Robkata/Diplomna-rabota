@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (!this.User.Identity.IsAuthenticated)
+{
+    <div class="jumbotron bg-eventures w-75 mx-auto">
+        <h1>ExpressTaxi: Taxi services in Bulgaria</h1>
+        <hr class="hr-2 bg-dark" />
+        <h3 class="mt-4"><a href="/Identity/Account/Login">Login</a> to order ""taxi.</h3>
+        <h3 class="mt-4"><a href="/Identity/Account/Register">Register</a> if you don't have an account.</h3>
+    </div>
+}
+else
+{
+    <div class="jumbotron bg-eventures w-75 mx-auto">
+        <h1 class="text-center">Welcome, @this.User.Identity.Name</h1>
+        <hr class="hr-2 bg-secondary" />
+        <h4 class="mt-4 text-secondary text-center">ExpressTaxi wishes you an exciting experience.</h4>
+        <h3 class="mt-4">View <a href="/Client/AllCLients">all users</a>.</h3>
+        <h3 class="mt-4">Create a <a href="/Client/Create">new taxi</a>.</h3>
+    </div>
+}
