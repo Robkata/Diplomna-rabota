@@ -15,12 +15,13 @@ namespace ExpressTaxi.Models.Taxi
         public TaxiCreateVM()
         {
             Brands = new List<BrandChoiceVM>();
-            Options = new List<OptionPairVM>();
             Drivers = new List<DriverPairVM>();
         }
         [Key]
 
         public int Id { get; set; }
+        [Display(Name = "Taxi Number")]
+        public string TaxiId { get; set; }
 
         [Display(Name = "Brand")]
         public int BrandId { get; set; }
@@ -38,11 +39,10 @@ namespace ExpressTaxi.Models.Taxi
 
         [Display(Name = "Year")]
         public DateTime Year { get; set; }
-        [Display(Name = "Brand")]
+        [Display(Name = "Driver")]
         public int DriverId { get; set; }
 
         public virtual List<BrandChoiceVM> Brands { get; set; }
-        public virtual List<OptionPairVM> Options { get; set; }
         public virtual List<DriverPairVM> Drivers { get; set; }
     }
 }

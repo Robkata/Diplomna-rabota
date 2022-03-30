@@ -29,6 +29,9 @@ namespace ExpressTaxi.Infrastructure
             var dataOption = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             SeedOptions(dataOption);
 
+            var dataDriver = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            SeedDrivers(dataDriver);
+
 
             return app;
         }
@@ -60,6 +63,20 @@ namespace ExpressTaxi.Infrastructure
                 new Option {Name="Много багаж"}
             });
             dataOption.SaveChanges();
+        }
+        private static void SeedDrivers(ApplicationDbContext dataDriver)
+        {
+            if (dataDriver.Drivers.Any())
+            {
+                return;
+            }
+            dataDriver.Drivers.AddRange(new[]
+            {
+                new Driver {Name="Ivan Dimitrov"},
+                new Driver {Name="Dimitur Ivanov"},
+                new Driver {Name="Petur Petrov"}
+            });
+            dataDriver.SaveChanges();
         }
 
 

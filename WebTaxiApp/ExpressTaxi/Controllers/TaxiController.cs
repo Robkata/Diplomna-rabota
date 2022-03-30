@@ -12,6 +12,8 @@ using ExpressTaxi.Domain;
 using ExpressTaxi.Models.Brand;
 using ExpressTaxi.Models.Taxi;
 using ExpressTaxi.Models.Option;
+using System.Globalization;
+using ExpressTaxi.Models.Driver;
 
 namespace ExpressTaxi.Controllers
 
@@ -20,14 +22,16 @@ namespace ExpressTaxi.Controllers
     {
         private readonly ITaxiService _taxiService;
         private readonly IBrandService _brandService;
+        private readonly IDriverService _driverService;
         private readonly IOptionService _optionService;
         private readonly IWebHostEnvironment _hostEnvironment;
 
 
-        public TaxiController(ITaxiService taxiService, IBrandService brandService, IOptionService optionService, IWebHostEnvironment hostEnvironment)
+        public TaxiController(ITaxiService taxiService, IBrandService brandService, IDriverService driverService, IOptionService optionService, IWebHostEnvironment hostEnvironment)
         {
             this._taxiService = taxiService;
             this._brandService = brandService;
+            this._driverService = driverService;
             this._hostEnvironment = hostEnvironment;
             this._optionService = optionService;
 
@@ -36,23 +40,23 @@ namespace ExpressTaxi.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult Create()
         {
-            var product = new TaxiCreateVM();
+            var taxi = new TaxiCreateVM();
 
-            product.Brands = _brandService.GetBrands()
+            taxi.Brands = _brandService.GetBrands()
              .Select(c => new BrandChoiceVM()
              {
                  Name = c.Name,
-                 Id = c.Id,
+                 Id = c.Id
              })
         .ToList();
-            product.Options = _optionService.GetOptions()
-             .Select(c => new OptionPairVM()
+            taxi.Drivers = _driverService.GetDrivers()
+             .Select(d => new DriverPairVM()
              {
-                 Name = c.Name,
-                 Id = c.Id,
+                 Name = d.Name,
+                 Id = d.Id
              })
         .ToList();
-            return View(product);
+            return View(taxi);
         }
 
         [HttpPost]
@@ -70,11 +74,11 @@ namespace ExpressTaxi.Controllers
                         Name = c.Name
                     })
                     .ToList();
-                input.Options = _optionService.GetOptions()
-                    .Select(c => new OptionPairVM()
+                input.Drivers = _driverService.GetDrivers()
+                    .Select(d => new DriverPairVM()
                     {
-                        Id = c.Id,
-                        Name = c.Name
+                        Id = d.Id,
+                        Name = d.Name
                     })
                     .ToList();
                 return View(input);
@@ -114,7 +118,7 @@ namespace ExpressTaxi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var updated = _taxiService.UpdateTaxi(bindingModel.TaxiId, bindingModel.BrandId, bindingModel.ImageUrl, bindingModel.Engine, bindingModel.Extras, bindingModel.DriverId);
+                var updated = _taxiService.UpdateTaxi(bindingModel.Id, bindingModel.TaxiId, bindingModel.BrandId, bindingModel.ImageUrl, bindingModel.Engine, bindingModel.Extras, bindingModel.DriverId);
                 if (updated)
                 {
                     return this.RedirectToAction("All");
@@ -132,7 +136,6 @@ namespace ExpressTaxi.Controllers
                 return NotFound();
             }
             TaxiCreateVM taxi = new TaxiCreateVM()
-
             {
                 Id = item.Id,
                 BrandId = item.BrandId,

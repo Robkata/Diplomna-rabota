@@ -17,17 +17,6 @@ namespace ExpressTaxi.Services
             _context = context;
         }
 
-        public Brand GetBrandById(int brandId)
-        {
-            return _context.Brands.Find(brandId);
-        }
-
-        public List<Brand> GetBrands()
-        {
-            List<Brand> brands = _context.Brands.ToList();
-            return brands;
-        }
-
         public List<Taxi> GetTaxiesByBrand(int brandId)
         {
             return _context.Taxies
@@ -36,14 +25,15 @@ namespace ExpressTaxi.Services
               .ToList();
         }
 
-        Option IBrandService.GetBrandById(int brandId)
+        Brand IBrandService.GetBrandById(int brandId)
         {
-            throw new NotImplementedException();
+            return _context.Brands.Find(brandId);
         }
 
-        List<Option> IBrandService.GetBrands()
+        List<Brand> IBrandService.GetBrands()
         {
-            throw new NotImplementedException();
+            List<Brand> brands = _context.Brands.ToList();
+            return brands;
         }
     }
 }

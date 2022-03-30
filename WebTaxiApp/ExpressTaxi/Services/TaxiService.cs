@@ -25,6 +25,7 @@ namespace ExpressTaxi.Services
             var extension = Path.GetExtension(model.Image.FileName).TrimStart('.');
             var taxi = new Taxi
             {
+                TaxiId = model.TaxiId,
                 BrandId = model.BrandId,
                 Engine = model.Engine,
                 Extras = model.Extras,
@@ -86,13 +87,14 @@ namespace ExpressTaxi.Services
             }
         }
 
-        public bool UpdateTaxi(int taxiId, int brandId, string imageId, string engine, string extras, int driverId)
+        public bool UpdateTaxi(int id, string taxiId, int brandId, string imageId, string engine, string extras, int driverId)
         {
-            var taxi = GetTaxiById(taxiId);
+            var taxi = GetTaxiById(id);
             if (taxi == default(Taxi))
             {
                 return false;
             }
+            taxi.TaxiId = taxiId;
             taxi.BrandId = brandId;
             taxi.ImageId = imageId;
             taxi.Engine = engine;
@@ -108,13 +110,14 @@ namespace ExpressTaxi.Services
                 .Select(d => new TaxiAllVM
                 {
                     Id = d.Id,
+                    TaxiId = d.TaxiId,
                     BrandId = d.BrandId,
                     Brand = d.Brand.Name,
                     Engine = d.Engine,
                     Extras = d.Extras,
                     Year = d.Year.ToString("dd-mm-yyyy hh:mm", CultureInfo.InvariantCulture),
                     DriverId = d.DriverId,
-                    Driver = d.Driver.FirstName,
+                    Driver = d.Driver.Name,
                     ImageUrl = $"/images/{d.ImageId}.{d.Image.Extension}",
                 }).ToList();
 

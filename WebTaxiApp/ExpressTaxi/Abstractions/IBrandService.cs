@@ -9,8 +9,8 @@ namespace ExpressTaxi.Abstractions
 {
     public interface IBrandService
     {
-        List<Option> GetBrands();
-        Option GetBrandById(int brandId);
+        List<Brand> GetBrands();
+        Brand GetBrandById(int brandId);
         List<Taxi> GetTaxiesByBrand(int brandId);
     }
 }

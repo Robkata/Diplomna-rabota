@@ -17,30 +17,20 @@ namespace ExpressTaxi.Services
             _context = context;
         }
 
-        public Option GetOptionById(int optionId)
-        {
-            return _context.Options.Find(optionId);
-        }
-
-        public List<Option> GetOptions()
-        {
-            List<Option> options = _context.Options.ToList();
-            return options;
-        }
-
         public List<Taxi> GetReservationByOption(int optionId)
         {
             throw new NotImplementedException();
         }
 
-        Brand IOptionService.GetOptionById(int optionId)
+        Option IOptionService.GetOptionById(int optionId)
         {
-            throw new NotImplementedException();
+            return _context.Options.Find(optionId);
         }
 
-        List<Brand> IOptionService.GetOptions()
+        List<Option> IOptionService.GetOptions()
         {
-            throw new NotImplementedException();
+            List<Option> options = _context.Options.ToList();
+            return options;
         }
     }
 }

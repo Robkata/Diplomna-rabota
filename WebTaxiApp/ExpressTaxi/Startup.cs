@@ -47,6 +47,7 @@ namespace ExpressTaxi
             services.AddTransient<IBrandService, BrandService>();
             services.AddTransient<ITaxiService, TaxiService>();
             services.AddTransient<IOptionService, OptionService>();
+            services.AddTransient<IDriverService, DriverService>();
 
             services.AddRazorPages();
             services.Configure<IdentityOptions>(option =>
