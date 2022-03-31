@@ -93,6 +93,57 @@ namespace ExpressTaxi.Controllers
 
         }
 
+        public ActionResult Edit()
+        {
+            var taxi = new TaxiEditVM();
+
+            taxi.Brands = _brandService.GetBrands()
+             .Select(c => new BrandChoiceVM()
+             {
+                 Name = c.Name,
+                 Id = c.Id
+             })
+        .ToList();
+            taxi.Drivers = _driverService.GetDrivers()
+             .Select(d => new DriverPairVM()
+             {
+                 Name = d.Name,
+                 Id = d.Id
+             })
+        .ToList();
+            return View(taxi);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<ActionResult> Edit([FromForm] TaxiEditVM input)
+        {
+            var imagePath = $"{this._hostEnvironment.WebRootPath}";
+            if (!ModelState.IsValid)
+            {
+                input.Brands = _brandService.GetBrands()
+                    .Select(c => new BrandChoiceVM()
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    })
+                    .ToList();
+                input.Drivers = _driverService.GetDrivers()
+                    .Select(d => new DriverPairVM()
+                    {
+                        Id = d.Id,
+                        Name = d.Name
+                    })
+                    .ToList();
+                return View(input);
+            }
+            await this._taxiService.UpdateTaxi(input, imagePath);
+            return RedirectToAction(nameof(All));
+        }
+
+
+        /*
         public IActionResult Edit(int id)
         {
             Taxi item = _taxiService.GetTaxiById(id);
@@ -126,6 +177,7 @@ namespace ExpressTaxi.Controllers
             }
             return View(bindingModel);
         }
+        */
 
         public IActionResult Delete(int id)
         {

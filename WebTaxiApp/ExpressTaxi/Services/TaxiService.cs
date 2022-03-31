@@ -87,22 +87,56 @@ namespace ExpressTaxi.Services
             }
         }
 
-        public bool UpdateTaxi(int id, string taxiId, int brandId, string imageId, string engine, string extras, int driverId)
+        public async Task UpdateTaxi(TaxiEditVM model, string imagePath)
         {
-            var taxi = GetTaxiById(id);
+            var extension = Path.GetExtension(model.Image.FileName).TrimStart('.');
+            var taxi = new Taxi
+            {
+                TaxiId = model.TaxiId,
+                BrandId = model.BrandId,
+                Engine = model.Engine,
+                Extras = model.Extras,
+                Year = model.Year,
+                DriverId = model.DriverId
+            };
+
+            var dbImage = new Image()
+            {
+                Taxi = taxi,
+                Extension = extension
+            };
+
+            taxi.ImageId = dbImage.Id;
+
+            Directory.CreateDirectory($"{imagePath}/images/");
+            var physicalPath = $"{ imagePath}/images/{dbImage.Id}.{ extension}";
+            using Stream fileStream = new FileStream(physicalPath, FileMode.CreateNew);
+            await model.Image.CopyToAsync(fileStream);
+
+            await this._context.Images.AddAsync(dbImage);
+            await this._context.Taxies.AddAsync(taxi);
+            await this._context.SaveChangesAsync();
+        }
+
+
+
+        /*
+        public async Task UpdateTaxi(TaxiEditVM model, string imagePath)
+        {
+            var taxi = GetTaxiById(model.Id);
             if (taxi == default(Taxi))
             {
                 return false;
             }
-            taxi.TaxiId = taxiId;
-            taxi.BrandId = brandId;
-            taxi.ImageId = imageId;
-            taxi.Engine = engine;
-            taxi.Extras = extras;
-            taxi.DriverId = driverId;
+            taxi.TaxiId = model.TaxiId;
+            taxi.BrandId = model.BrandId;
+            taxi.Engine = model.Engine;
+            taxi.Extras = model.Extras;
+            taxi.DriverId = model.DriverId;
             _context.Update(taxi);
             return _context.SaveChanges() != 0;
         }
+        */
 
         public List<TaxiAllVM> GetTaxies()
         {
