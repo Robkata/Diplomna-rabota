@@ -14,6 +14,7 @@ using ExpressTaxi.Models.Taxi;
 using ExpressTaxi.Models.Option;
 using System.Globalization;
 using ExpressTaxi.Models.Driver;
+using ExpressTaxi.Data;
 
 namespace ExpressTaxi.Controllers
 
@@ -93,6 +94,7 @@ namespace ExpressTaxi.Controllers
 
         }
 
+        /*
         public ActionResult Edit()
         {
             var taxi = new TaxiEditVM();
@@ -141,9 +143,9 @@ namespace ExpressTaxi.Controllers
             await this._taxiService.UpdateTaxi(input, imagePath);
             return RedirectToAction(nameof(All));
         }
+        */
 
-
-        /*
+        
         public IActionResult Edit(int id)
         {
             Taxi item = _taxiService.GetTaxiById(id);
@@ -152,7 +154,7 @@ namespace ExpressTaxi.Controllers
                 return NotFound();
             }
 
-            TaxiCreateVM taxi = new TaxiCreateVM()
+            TaxiEditVM taxi = new TaxiEditVM()
             {
                 Id = item.Id,
                 BrandId = item.BrandId,
@@ -165,11 +167,11 @@ namespace ExpressTaxi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int taxiId, TaxiEditVM bindingModel)
+        public IActionResult Edit(int id, TaxiEditVM bindingModel)
         {
             if (ModelState.IsValid)
             {
-                var updated = _taxiService.UpdateTaxi(bindingModel.Id, bindingModel.TaxiId, bindingModel.BrandId, bindingModel.ImageUrl, bindingModel.Engine, bindingModel.Extras, bindingModel.DriverId);
+                var updated = _taxiService.UpdateTaxi(id, bindingModel.BrandId, bindingModel.ImageUrl, bindingModel.Engine, bindingModel.Extras, bindingModel.DriverId);
                 if (updated)
                 {
                     return this.RedirectToAction("All");
@@ -177,7 +179,6 @@ namespace ExpressTaxi.Controllers
             }
             return View(bindingModel);
         }
-        */
 
         public IActionResult Delete(int id)
         {
@@ -214,22 +215,6 @@ namespace ExpressTaxi.Controllers
         [AllowAnonymous]
         public ActionResult All(string searchStringExtras, string searchStringEngine)
         {
-            //List<ProductAllVM> products = _productService.GetProducts(searchStringModel, searchStringDescription)
-            //.Select(productFromDb => new ProductAllVM
-            //{
-            //    Id = productFromDb.Id,
-            //    CategoryId = productFromDb.CategoryId,
-            //    CategoryName = productFromDb.Category.Name,
-            //    Model = productFromDb.Model,
-            //    BrandId = productFromDb.BrandId,
-            //    BrandName = productFromDb.Brand.Name,
-            //    Description = productFromDb.Description,
-            //    ImageUrl=productFromDb.ImageUrl,
-            //    Price = productFromDb.Price,
-            //    Quantity = productFromDb.Quantity,
-            //    Discount = productFromDb.Discount
-            //}).ToList();
-
             var taxies = _taxiService.GetTaxies();
             return this.View(taxies);
         }

@@ -52,7 +52,7 @@ namespace ExpressTaxi.Infrastructure
         }
         private static void SeedOptions(ApplicationDbContext dataOption)
         {
-            if (dataOption.Brands.Any())
+            if (dataOption.Options.Any())
             {
                 return;
             }

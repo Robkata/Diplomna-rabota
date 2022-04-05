@@ -10,7 +10,7 @@ namespace ExpressTaxi.Models.Taxi
     {
         public int Id { get; set; }
         [Display(Name = "Taxi")]
-        public string TaxiId { get; set; }
+        public int TaxiId { get; set; }
         [Display(Name = "Brand")]
         public int BrandId { get; set; }
         public string Brand { get; set; }

@@ -20,9 +20,6 @@ namespace ExpressTaxi.Models.Taxi
         [Key]
 
         public int Id { get; set; }
-        [Display(Name = "Taxi Number")]
-        public string TaxiId { get; set; }
-
         [Display(Name = "Brand")]
         public int BrandId { get; set; }
 

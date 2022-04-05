@@ -13,7 +13,7 @@ namespace ExpressTaxi.Domain
 
         public int Id { get; set; }
         [Required]
-        public string TaxiId { get; set; }
+        public int TaxiId { get; set; }
         [Required]
         public int BrandId { get; set; }
         public virtual Brand Brand { get; set; }

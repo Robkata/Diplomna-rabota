@@ -25,7 +25,6 @@ namespace ExpressTaxi.Services
             var extension = Path.GetExtension(model.Image.FileName).TrimStart('.');
             var taxi = new Taxi
             {
-                TaxiId = model.TaxiId,
                 BrandId = model.BrandId,
                 Engine = model.Engine,
                 Extras = model.Extras,
@@ -35,7 +34,7 @@ namespace ExpressTaxi.Services
 
             var dbImage = new Image()
             {
-                Taxi = taxi,
+                Taxies = taxi,
                 Extension = extension
             };
 
@@ -87,7 +86,7 @@ namespace ExpressTaxi.Services
             }
         }
 
-        public async Task UpdateTaxi(TaxiEditVM model, string imagePath)
+        /*public async Task UpdateTaxi(TaxiEditVM model, string imagePath)
         {
             var extension = Path.GetExtension(model.Image.FileName).TrimStart('.');
             var taxi = new Taxi
@@ -117,27 +116,23 @@ namespace ExpressTaxi.Services
             await this._context.Taxies.AddAsync(taxi);
             await this._context.SaveChangesAsync();
         }
-
-
-
-        /*
-        public async Task UpdateTaxi(TaxiEditVM model, string imagePath)
+        */
+        
+        public bool UpdateTaxi(int taxiId, int brandId, string image, string engine, string extras, int driverId)
         {
-            var taxi = GetTaxiById(model.Id);
+            var taxi = GetTaxiById(taxiId);
             if (taxi == default(Taxi))
             {
                 return false;
             }
-            taxi.TaxiId = model.TaxiId;
-            taxi.BrandId = model.BrandId;
-            taxi.Engine = model.Engine;
-            taxi.Extras = model.Extras;
-            taxi.DriverId = model.DriverId;
+            taxi.BrandId = brandId;
+            taxi.Engine = engine;
+            taxi.Extras = extras;
+            taxi.DriverId = driverId;
             _context.Update(taxi);
             return _context.SaveChanges() != 0;
         }
-        */
-
+        
         public List<TaxiAllVM> GetTaxies()
         {
             List<TaxiAllVM> taxies = _context.Taxies
