@@ -37,7 +37,26 @@ namespace ExpressTaxi.Controllers
             this._optionService = optionService;
 
         }
-        // GET: ProductsController
+
+        public ActionResult Details(int id)
+        {
+            Taxi item = _taxiService.GetTaxiById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            TaxiDetailsVM taxi = new TaxiDetailsVM()
+            {
+                Id = item.Id,
+                Brand = item.Brand.Name,
+                Engine = item.Engine,
+                Extras = item.Extras,
+                Year = item.Year,
+                Driver = item.Driver.Name
+            };
+            return View(taxi);
+        }
+
         [Authorize(Roles = "Administrator")]
         public ActionResult Create()
         {
@@ -163,6 +182,20 @@ namespace ExpressTaxi.Controllers
                 Year = item.Year,
                 DriverId = item.DriverId
             };
+            taxi.Brands =_brandService.GetBrands()
+               .Select(c => new BrandChoiceVM()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToList();
+            taxi.Drivers = _driverService.GetDrivers()
+                .Select(d => new DriverPairVM()
+                {
+                    Id = d.Id,
+                    Name = d.Name
+                })
+                .ToList();
             return View(taxi);
         }
 
@@ -171,7 +204,21 @@ namespace ExpressTaxi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var updated = _taxiService.UpdateTaxi(id, bindingModel.BrandId, bindingModel.ImageUrl, bindingModel.Engine, bindingModel.Extras, bindingModel.DriverId);
+                var updated = _taxiService.UpdateTaxi(id, bindingModel.BrandId, bindingModel.Engine, bindingModel.Extras, bindingModel.DriverId);
+                _brandService.GetBrands()
+                   .Select(c => new BrandChoiceVM()
+                   {
+                       Id = c.Id,
+                       Name = c.Name
+                   })
+                   .ToList();
+                _driverService.GetDrivers()
+                   .Select(d => new DriverPairVM()
+                   {
+                       Id = d.Id,
+                       Name = d.Name
+                   })
+                   .ToList();
                 if (updated)
                 {
                     return this.RedirectToAction("All");
@@ -188,14 +235,14 @@ namespace ExpressTaxi.Controllers
             {
                 return NotFound();
             }
-            TaxiCreateVM taxi = new TaxiCreateVM()
+            TaxiDeleteVM taxi = new TaxiDeleteVM()
             {
                 Id = item.Id,
-                BrandId = item.BrandId,
+                Brand = item.Brand.Name,
                 Engine = item.Engine,
                 Extras = item.Extras,
                 Year = item.Year,
-                DriverId = item.DriverId
+                Driver = item.Driver.Name
             };
             return View(taxi);
         }

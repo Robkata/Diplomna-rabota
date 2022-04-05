@@ -14,7 +14,7 @@ namespace ExpressTaxi.Abstractions
         // bool Create( int categoryId, string model, int brandId, string description, string image, decimal price, decimal quantity, decimal discount);
 
         //Task UpdateTaxi(TaxiEditVM model, string imagePath);
-        bool UpdateTaxi(int taxiId, int brandId, string image, string engine, string extras, int driverId);
+        bool UpdateTaxi(int taxiId, int brandId, string engine, string extras, int driverId);
 
         List<TaxiAllVM> GetTaxies();
         //List<ProductAllVM> GetAccessories();

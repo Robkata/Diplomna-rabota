@@ -22,17 +22,10 @@ namespace ExpressTaxi.Models.Taxi
         public int Id { get; set; }
         [Display(Name = "Brand")]
         public int BrandId { get; set; }
-
-        [Display(Name = "Image Picture")]
-        public string ImageUrl { get; set; }
-
         [Display(Name = "Engine")]
         public string Engine { get; set; }
-        public IFormFile Image { get; set; }
-
         [Display(Name = "Extras")]
         public string Extras { get; set; }
-
         [Display(Name = "Year")]
         public DateTime Year { get; set; }
         [Display(Name = "Driver")]

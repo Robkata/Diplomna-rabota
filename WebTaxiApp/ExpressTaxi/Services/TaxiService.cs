@@ -118,17 +118,17 @@ namespace ExpressTaxi.Services
         }
         */
         
-        public bool UpdateTaxi(int taxiId, int brandId, string image, string engine, string extras, int driverId)
+        public bool UpdateTaxi(int taxiId, int brandId, string engine, string extras, int driverId)
         {
             var taxi = GetTaxiById(taxiId);
             if (taxi == default(Taxi))
             {
                 return false;
             }
-            taxi.BrandId = brandId;
+            taxi.Brand = _context.Brands.Find(brandId);
             taxi.Engine = engine;
             taxi.Extras = extras;
-            taxi.DriverId = driverId;
+            taxi.Driver = _context.Drivers.Find(driverId);
             _context.Update(taxi);
             return _context.SaveChanges() != 0;
         }
