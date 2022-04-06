@@ -8,6 +8,7 @@ using ExpressTaxi.Domain;
 using ExpressTaxi.Models;
 using ExpressTaxi.Models.Taxi;
 using ExpressTaxi.Models.Brand;
+using ExpressTaxi.Models.Reservation;
 
 namespace ExpressTaxi.Data
 {
@@ -27,5 +28,6 @@ namespace ExpressTaxi.Data
         public DbSet<ExpressTaxi.Models.Taxi.TaxiDetailsVM> TaxiDetailsVM { get; set; }
         public DbSet<ExpressTaxi.Models.Taxi.TaxiEditVM> TaxiEditVM { get; set; }
         public DbSet<ExpressTaxi.Models.Taxi.TaxiDeleteVM> TaxiDeleteVM { get; set; }
+        public DbSet<ExpressTaxi.Models.Reservation.ReservationCreateBindingModel> ReservationCreateBindingModel { get; set; }
     }
 }

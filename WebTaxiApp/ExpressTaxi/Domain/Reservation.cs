@@ -16,5 +16,8 @@ namespace ExpressTaxi.Domain
         public virtual Taxi Taxi { get; set; }
         public string TaxiUserId { get; set; }
         public virtual TaxiUser TaxiUser { get; set; }
+        public string Status { get; set; }
+        public int OptionId { get; set; }
+        public virtual Option Option { get; set; }
     }
 }

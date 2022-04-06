@@ -25,6 +25,6 @@ namespace ExpressTaxi.Domain
         public DateTime Year { get; set; }
         public int DriverId { get; set; }
         public virtual Driver Driver { get; set; }
-        public virtual IEnumerable<Reservation> Reservations { get; set; }
+        public virtual IEnumerable<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }
